@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Калькулятор Бюджету</title>
+    <!-- CSS only -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css"
+          integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+    <link href="style.css" rel="stylesheet" type="text/css">
+</head>
+<body>
+    <div class="container">
+        <img src="img/logo.png" alt="logo">
+        <br>
+        <button type="button" class="btn btn-danger" onclick="cleanCache()">Очистити кеш</button>
+
+        <ul class="nav nav-tabs mt-5" id="myTab" role="tablist">
+            <li class="nav-item" role="presentation">
+                <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Доходи/Витрати</a>
+            </li>
+            <li class="nav-item" role="presentation">
+                <a class="nav-link" id="budget-tab" data-toggle="tab" href="#budget" role="tab" aria-controls="budget" aria-selected="false">Бюджет</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                <div class="row py-3">
+                    <div class="col-6">
+                        <h3>Доходи</h3>
+
+                        <table class="table table-success table-hover">
+                            <thead>
+                            <tr>
+                                <th scope="col">Опис доходу</th>
+                                <th scope="col">Сума</th>
+                            </tr>
+                            </thead>
+                            <tbody id="incomeTableBody">
+                            </tbody>
+                        </table>
+
+                        <button type="button" class="btn btn-success" data-toggle="modal" data-target="#incomeModal">Додати дохід</button>
+                    </div>
+
+                    <div class="col-6">
+                        <h3>Витрати</h3>
+
+                        <table class="table table-danger table-hover">
+                            <thead>
+                            <tr>
+                                <th scope="col">Опис витрати</th>
+                                <th scope="col">Сума</th>
+                            </tr>
+                            </thead>
+                            <tbody id="expensesTableBody">
+                            </tbody>
+                        </table>
+
+                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#expenseModal">Додати витрату</button>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="budget" role="tabpanel" aria-labelledby="budget-tab">
+                <button type="button" class="btn btn-secondary mt-3" data-toggle="modal" data-target="#budgetModal">Додати статтю витрат</button>
+
+                <table class="table table-striped mt-3">
+                    <thead>
+                    <tr>
+                        <th scope="col">Опис витрати</th>
+                        <th scope="col">Сума</th>
+                    </tr>
+                    </thead>
+                    <tbody id="budgetTable">
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Modal Windows -->
+
+    <!-- Income modal -->
+    <div class="modal fade" id="incomeModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Додавання доходу</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="incomeType">Тип доходу</label>
+                            <select class="form-control" id="incomeType">
+                                <option value="1">Зарплата</option>
+                                <option value="2">Проценти депозит</option>
+                                <option value="3">Дивіденди</option>
+                                <option value="4">Продаж</option>
+                                <option value="5">Пенсія</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="incomeDescription">Опис доходу</label>
+                            <input type="text" class="form-control" id="incomeDescription">
+                        </div>
+                        <div class="form-group">
+                            <label for="incomeAmount">Сума</label>
+                            <input type="number" class="form-control" id="incomeAmount">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+                    <button type="button" class="btn btn-success" onclick="addIncome()">Додати</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Expenses modal -->
+    <div class="modal fade" id="expenseModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="example2ModalLabel">Додавання доходу</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="expenseSpendingType">Тип витрати</label>
+                            <select class="form-control" id="expenseSpendingType">
+                                <option value="1">Їжа</option>
+                                <option value="2">Одяг</option>
+                                <option value="3">Комунальні послуги</option>
+                                <option value="4">Кафе/Ресторани</option>
+                                <option value="5">Техніка</option>
+                                <option value="6">Здоров'я</option>
+                                <option value="7">Авто</option>
+                                <option value="8">Благодійність</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="expenseDescription">Опис витрати</label>
+                            <input type="text" class="form-control" id="expenseDescription">
+                        </div>
+                        <div class="form-group">
+                            <label for="expenseAmount">Сума</label>
+                            <input type="number" class="form-control" id="expenseAmount">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+                    <button type="button" class="btn btn-success" onclick="addExpense()">Додати</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Budget Add item modal -->
+    <div class="modal fade" id="budgetModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="example3ModalLabel">Додавання статті бюджету</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="expenseDescription">Стаття витрат</label>
+                            <select class="form-control" id="budgetSpendingType">
+                                <option value="1">Їжа</option>
+                                <option value="2">Одяг</option>
+                                <option value="3">Комунальні послуги</option>
+                                <option value="4">Кафе/Ресторани</option>
+                                <option value="5">Техніка</option>
+                                <option value="6">Здоров'я</option>
+                                <option value="7">Авто</option>
+                                <option value="8">Благодійність</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="budgetSpendingDescription">Опис</label>
+                            <input type="text" class="form-control" id="budgetSpendingDescription">
+                        </div>
+                        <div class="form-group">
+                            <label for="budgetSpendingAmount">Сума</label>
+                            <input type="number" class="form-control" id="budgetSpendingAmount">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Закрити</button>
+                    <button type="button" class="btn btn-success" onclick="addBudgetItem()">Додати</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"
+        integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI"
+        crossorigin="anonymous"></script>
+<script src="script.js"></script>
+</body>
+</html>
